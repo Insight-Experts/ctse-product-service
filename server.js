@@ -10,10 +10,9 @@ connectDB();
 app.use(express.json());
 
 app.get("/app", (req, res) => {
-	res.send("Product API is Running");
+  res.send("Product API is Running");
 });
 
-//product start server route
 app.use("/", productRoutes);
 
 app.use(notFound);
