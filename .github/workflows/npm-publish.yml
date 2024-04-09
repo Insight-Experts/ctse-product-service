@@ -57,4 +57,4 @@ jobs:
         context: .
         file: ./dockerfile # Path to your Dockerfile
         push: true
-        tags: InsighntExpert/product-service:v1.0.0.2
+        tags: insighntExpert/product-service:v1.0.0.2
