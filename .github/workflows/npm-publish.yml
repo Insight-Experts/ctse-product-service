@@ -50,6 +50,7 @@ jobs:
       with:
         username: insightexperts
         password: dckr_pat_Fu4vnfs_EhsEWMyhT2U9tYjtKRo
+
     - name: Build Docker image
       run: |
         docker build -t insightexperts/product-service:v1.0.0.2 .
@@ -59,10 +60,6 @@ jobs:
           exit 1
         fi
 
-    - name: Generate Trivy report artifact
-      run: mv trivy_report.json ./trivy_report.json
-      if: always()
-      
     - name: Upload Trivy report as artifact
       uses: actions/upload-artifact@v2
       with:
