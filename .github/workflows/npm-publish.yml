@@ -50,14 +50,24 @@ jobs:
       with:
         username: insightexperts
         password: dckr_pat_Fu4vnfs_EhsEWMyhT2U9tYjtKRo
+    - name: Build Docker image
+      run: |
+        docker build -t insightexperts/product-service:v1.0.0.2 .
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/root/ aquasec/trivy image --format json insightexperts/product-service:v1.0.0.2 > trivy_report.json
+        if [ $? -ne 0 ]; then
+          echo "Trivy scan found vulnerabilities."
+          exit 1
+        fi
 
-    - name: Build and push Docker image to dockerhub
-      uses: docker/build-push-action@v2
+    - name: Generate Trivy report artifact
+      run: mv trivy_report.json ./trivy_report.json
+      if: always()
+      
+    - name: Upload Trivy report as artifact
+      uses: actions/upload-artifact@v2
       with:
-        context: .
-        file: ./dockerfile # Path to Dockerfile
-        push: true
-        tags: insightexperts/product-service:v1.0.0.2
-      env:
-        DOCKER_BUILDKIT: 1
-        BUILDKIT_PROGRESS: plain
+        name: trivy-report
+        path: ./trivy_report.json
+
+    - name: Push Docker image to Dockerhub
+      run: docker push insightexperts/product-service:v1.0.0.2
