@@ -55,7 +55,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: ./dockerfile # Path to Dockerfile
+        file: ../../dockerfile # Path to Dockerfile
         push: true
         tags: insightexperts/product-service:v1.0.0.2
       env:
