@@ -55,7 +55,7 @@ jobs:
       with:
         name: snyk-report
         path: snyk_report.json
-  Containerlization:
+  Containerization:
     needs: BuildandTest
     runs-on: ubuntu-latest
     steps:
