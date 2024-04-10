@@ -17,8 +17,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Install dependencies
       run: npm install
-    - name: Run build script
-      run: npm run build # Adjust this command according to your project setup
+    - name: Build
+      run: npm run build --if-present
     - name: Depcheck
       uses: dependency-check/Dependency-Check_Action@main
       id: Depcheck
@@ -35,8 +35,6 @@ jobs:
       with:
         name: Depcheck-report
         path: ${{ github.workspace }}/reports
-    - name: Build
-      run: npm run build --if-present
     - name: Test
       run: npm test
 
