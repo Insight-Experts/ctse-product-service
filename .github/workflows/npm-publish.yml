@@ -37,7 +37,22 @@ jobs:
         path: ${{ github.workspace }}/reports
     - name: Test
       run: npm test
-
+  SnykScan:
+    needs: depchecktest
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install Snyk CLI
+      run: npm install -g snyk
+    - name: Snyk Scan
+      run: snyk test --json > snyk_report.json || true
+    - name: Upload Snyk report
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: snyk-report
+        path: snyk_report.json
   Containerlization:
     needs: depchecktest
     runs-on: ubuntu-latest
