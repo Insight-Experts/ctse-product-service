@@ -28,15 +28,13 @@ jobs:
       run: |
         npm ci
 
-    - name: Run OWASP Dependency-Check
-      run: |
-        # Install OWASP Dependency-Check (Assuming it's installed)
     - name: Install OWASP Dependency-Check
       run: |
         npm install -g dependency-check
 
-        # Run Dependency-Check
-        dependency-check --project product-service --out dependency-check-report
+    - name: Run OWASP Dependency-Check
+      run: |
+        dependency-check . --out dependency-check-report
 
     - name: Upload Dependency-Check report
       if: always()
@@ -44,7 +42,6 @@ jobs:
       with:
         name: dependency-check-report
         path: dependency-check-report
-
 
     - name: Build
       run: npm run build --if-present
@@ -67,8 +64,8 @@ jobs:
 
     - name: Build Docker image
       run: |
-       docker build -t insightexperts/product-service:v1.0.0.2 .
-       
+        docker build -t insightexperts/product-service:v1.0.0.2 .
+
     - name: Scan Docker image for vulnerabilities
       run: |
         docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/root/ aquasec/trivy image insightexperts/product-service:v1.0.0.2 > trivy_report.json || true
@@ -77,5 +74,5 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v2
       with:
-          name: trivy-report
-          path: trivy_report.json
+        name: trivy-report
+        path: trivy_report.json
