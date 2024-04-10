@@ -54,16 +54,16 @@ jobs:
     - name: Build Docker image
       run: |
        docker build -t insightexperts/product-service:v1.0.0.2 .
-          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/root/ aquasec/trivy image --format table insightexperts/product-service:v1.0.0.2 > trivy_report.txt
-          if [ $? -ne 0 ]; then
-            echo "Trivy scan found vulnerabilities."
-            exit 1
-          fi
-    - name: Upload Trivy report as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: trivy-report
-        path: ./trivy_report.txt
+       
+    - name: Scan Docker image for vulnerabilities
+      run: |
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/work aquasec/trivy insightexperts/product-service:v1.0.0.2 > trivy_report.txt
 
     - name: Push Docker image to Dockerhub
       run: docker push insightexperts/product-service:v1.0.0.2
+
+    - name: Upload Trivy report
+      uses: actions/upload-artifact@v2
+      with:
+        name: trivy-report
+        path: trivy_report.txt
