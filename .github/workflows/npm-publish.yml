@@ -82,3 +82,6 @@ jobs:
       with:
         name: trivy-report
         path: trivy_report.json
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker push insightexperts/product-service:v1.0.0.2
