@@ -9,7 +9,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  depchecktest:
+  BuildandTest:
     runs-on: ubuntu-latest
     name: depcheck_test
     steps:
@@ -37,8 +37,8 @@ jobs:
         path: ${{ github.workspace }}/reports
     - name: Test
       run: npm test
-  SnykScan:
-    needs: depchecktest
+  SnykSecurityScan:
+    needs: BuildandTest
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -56,7 +56,7 @@ jobs:
         name: snyk-report
         path: snyk_report.json
   Containerlization:
-    needs: depchecktest
+    needs: BuildandTest
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
