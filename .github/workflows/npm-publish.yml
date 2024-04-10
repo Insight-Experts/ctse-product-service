@@ -11,7 +11,7 @@ on:
 jobs:
   BuildandTest:
     runs-on: ubuntu-latest
-    name: depcheck_test
+    name: Build and Test
     steps:
     - name: Checkout
       uses: actions/checkout@v2
