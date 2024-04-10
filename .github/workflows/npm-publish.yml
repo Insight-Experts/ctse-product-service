@@ -53,7 +53,7 @@ jobs:
        
     - name: Scan Docker image for vulnerabilities
       run: |
-        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/root/ aquasec/trivy image insightexperts/product-service:v1.0.0.2 > > trivy_report.json || true
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/root/ aquasec/trivy image insightexperts/product-service:v1.0.0.2 > trivy_report.json || true
 
     - name: Upload Trivy report
       if: always()
