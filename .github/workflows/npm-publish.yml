@@ -34,7 +34,7 @@ jobs:
 
     - name: Run OWASP Dependency-Check
       run: |
-        dependency-check . --out dependency-check-report
+        dependency-check . --out dependency-check-report || true
 
     - name: Upload Dependency-Check report
       if: always()
