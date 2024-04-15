@@ -1,19 +1,12 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: product-deployment
+  name: product-service
 spec:
-  replicas: 3
   selector:
-    matchLabels:
-      app: product
-  template:
-    metadata:
-      labels:
-        app: product
-    spec:
-      containers:
-      - name: product
-        image: ctse2024/product-service
-        ports:
-        - containerPort: 8080
+    app: product
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5003
+  type: LoadBalancer
