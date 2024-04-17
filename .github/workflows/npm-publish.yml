@@ -106,7 +106,9 @@ jobs:
       run: az account set --subscription ${{ secrets.AZ_SUBSCRIPTION_ID }}
     - name: Set AKS context
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
-    - name: Deploy to AKS
-      run: kubectl apply -f kubernetes/
+    - name: Deploy product deployment to AKS
+      run: kubectl apply -f kubernetes/product-deployment.yaml
+    - name: Deploy product service to AKS
+      run: kubectl apply -f kubernetes/product-service.yaml
     - name: Get Service IP Address
       run: kubectl get services
