@@ -8,10 +8,7 @@ spec:
     matchLabels:
       app: product
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
+    type: Recreate
   template:
     metadata:
       labels:
