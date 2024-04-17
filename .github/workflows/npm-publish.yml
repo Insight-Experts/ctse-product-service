@@ -107,10 +107,9 @@ jobs:
     - name: Set AKS context
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
     - name: Pull Docker Image
-      run: |
-        image=$(kubectl create deployment temp-deployment --image=ctse2024/product-service:v1.0.0.0 --dry-run=client -o=jsonpath='{.spec.template.spec.containers[0].image}')
-        docker pull $image
+      run: docker pull ctse2024/product-service:v1.0.0.0
     - name: Deploy to AKS
-      run: kubectl apply -f kubernetes/
+      run: |
+        kubectl set image deployment/product-deployment product=ctse2024/product-service:v1.0.0.0
     - name: Get Service IP Address
       run: kubectl get services
