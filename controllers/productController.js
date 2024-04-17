@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 const addProduct = asyncHandler(async (req, res) => {
   const {
     title,
+    userId,
     category,
     productBrand,
     productCode,
@@ -20,6 +21,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
   if (
     !title ||
+    !userId ||
     !category ||
     !productBrand ||
     !productCode ||
@@ -38,6 +40,7 @@ const addProduct = asyncHandler(async (req, res) => {
   } else {
     const product = new Product({
       title,
+      userId,
       category,
       productBrand,
       productCode,
@@ -56,6 +59,11 @@ const addProduct = asyncHandler(async (req, res) => {
 
     res.status(201).json(addedProduct);
   }
+});
+
+const getProductsForUser = asyncHandler(async (req, res) => {
+  const products = await Product.find({userId: req.params.id});
+  res.json(products);
 });
 
 const getProducts = asyncHandler(async (req, res) => {
@@ -130,4 +138,5 @@ module.exports = {
   getProductById,
   updateProduct,
   deleteProduct,
+  getProductsForUser
 };

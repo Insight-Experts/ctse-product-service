@@ -5,6 +5,9 @@ const productSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
+  },userId: {
+    type: String,
+    required: true,
   },
   category: {
     type: String,
