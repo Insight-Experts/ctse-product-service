@@ -15,6 +15,7 @@ describe("addProduct Controller Tests", () => {
     const req = httpMocks.createRequest({
       body: {
         title: "Test Product",
+        userId: "id123456",
         category: "Test Category",
         productBrand: "Test Brand",
         productCode: "XYZ123",
