@@ -108,6 +108,5 @@ jobs:
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
     - name: Deploy to AKS
       run: kubectl apply -f kubernetes/
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     - name: Get Service IP Address
       run: kubectl get services
