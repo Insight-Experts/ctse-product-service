@@ -108,6 +108,8 @@ jobs:
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
     - name: Pull Docker Image
       run: docker pull ctse2024/product-service:v1.0.0.0
+    - name: Set Kubernetes Files
+      run: kubectl apply -f kubernetes/
     - name: Deploy to AKS
       run: |
         kubectl set image deployment/product-deployment product=ctse2024/product-service:v1.0.0.0
