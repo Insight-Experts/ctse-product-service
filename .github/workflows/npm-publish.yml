@@ -106,6 +106,9 @@ jobs:
       run: az account set --subscription ${{ secrets.AZ_SUBSCRIPTION_ID }}
     - name: Set AKS context
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
+    - name: Modify deployment YAML
+      run: |
+        sed -i 's|ctse2024/product-service:TAG|ctse2024/product-service:${{ github.run_id }}|' kubernetes/product-deployment.yaml
     - name: Deploy to AKS
       run: kubectl apply -f kubernetes/
     - name: Get Service IP Address

@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: product
-        image: ctse2024/product-service:${{ github.run_id }}
+        image: ctse2024/product-service:TAG
         ports:
         - containerPort: 5003
