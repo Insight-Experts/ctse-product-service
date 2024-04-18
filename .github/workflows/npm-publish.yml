@@ -109,4 +109,4 @@ jobs:
     - name: Deploy to AKS
       run: kubectl apply -f kubernetes/
     - name: Get Service IP Address
-      run: kubectl get services
+      run: kubectl get service
