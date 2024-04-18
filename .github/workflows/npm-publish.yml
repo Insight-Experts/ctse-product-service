@@ -70,10 +70,10 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN  }} # Using Docker password secret
     - name: Build Docker image
       run: |
-        docker build -t ctse2024/product-service:v1.0.0.0 .
+        docker build -t ctse2024/product-service:${{ github.run_id }} .
     - name: Scan Docker image for vulnerabilities
       run: |
-        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/root/ aquasec/trivy image ctse2024/product-service:v1.0.0.0 > trivy_report.json || true
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/root/ aquasec/trivy image ctse2024/product-service:${{ github.run_id }} > trivy_report.json || true
     - name: Upload Trivy report
       if: always()
       uses: actions/upload-artifact@v2
@@ -82,7 +82,7 @@ jobs:
         path: trivy_report.json
     - name: Push Docker image to Docker Hub
       run: |
-        docker push ctse2024/product-service:v1.0.0.0
+        docker push ctse2024/product-service:${{ github.run_id }}
         
   DeployToAKS:
     needs: Containerization
@@ -106,12 +106,7 @@ jobs:
       run: az account set --subscription ${{ secrets.AZ_SUBSCRIPTION_ID }}
     - name: Set AKS context
       run: az aks get-credentials --resource-group ${{ secrets.AZ_RESOURCE_GROUP }} --name ${{ secrets.AZ_CLUSTER }}
-    - name: Pull Docker Image
-      run: docker pull ctse2024/product-service:v1.0.0.0
-    - name: Set Kubernetes Files
-      run: kubectl apply -f kubernetes/
     - name: Deploy to AKS
-      run: |
-        kubectl set image deployment/product-deployment product=ctse2024/product-service:v1.0.0.0
+      run: kubectl apply -f kubernetes/
     - name: Get Service IP Address
       run: kubectl get services
