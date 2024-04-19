@@ -9,7 +9,7 @@ const {
 } = require("../controllers/productController");
 const router = express.Router();
 
-router.route("/vendor/:id").get(getProductsForUser);
+router.route("/user/:id").get(getProductsForUser);
 router.route("/").get(getProducts);
 router.route("/add").post(addProduct);
 router
