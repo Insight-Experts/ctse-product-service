@@ -37,10 +37,6 @@ jobs:
         path: ${{ github.workspace }}/reports
     - name: Test
       run: npm test
-
-  SonarAnalysis:
-    runs-on: ubuntu-latest
-    steps:
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       env:
@@ -49,7 +45,7 @@ jobs:
           SONAR_PROJECT_KEY: ctse
           
   SnykSecurityScan:
-    needs: [BuildandTest, SonarAnalysis]
+    needs: BuildandTest
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
