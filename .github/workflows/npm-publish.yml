@@ -43,6 +43,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_PROJECT_KEY: ctse
+    - name: Upload SonarQube report
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: sonarqube_report
+        path: sonarqube_report.json
   SnykSecurityScan:
     needs: BuildandTest
     runs-on: ubuntu-latest
