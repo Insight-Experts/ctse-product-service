@@ -37,7 +37,11 @@ jobs:
         path: ${{ github.workspace }}/reports
     - name: Test
       run: npm test
-      
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   SnykSecurityScan:
     needs: BuildandTest
     runs-on: ubuntu-latest
