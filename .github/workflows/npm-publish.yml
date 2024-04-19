@@ -44,20 +44,6 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_PROJECT_KEY: ctse
           
-    - name: Download SonarQube Analysis Report
-      run: |
-        curl -o sonarqube_report.json "${{ secrets.SONAR_HOST_URL }}/api/measures/component?componentKey=${{ secrets.SONAR_PROJECT_KEY }}&metricKeys=alert_status,bugs,vulnerabilities,code_smells,security_hotspots&format=json" -u "${{ secrets.SONAR_TOKEN }}:"
-      shell: bash
-
-    - name: Upload SonarQube report
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-       name: sonarqube_report
-       path: sonarqube_report.json
-
-
-        
   SnykSecurityScan:
     needs: BuildandTest
     runs-on: ubuntu-latest
