@@ -7,9 +7,23 @@ on:
       - release/*
   pull_request:
     branches: [ "main" ]
-
+    
 jobs:
+  SonarQubeAnalysis:
+    runs-on: ubuntu-latest
+    name: SonarQube Analysis
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_PROJECT_KEY: ctse
+          
   BuildandTest:
+    needs: SonarQubeAnalysis
     runs-on: ubuntu-latest
     name: Build and Test
     steps:
@@ -37,12 +51,6 @@ jobs:
         path: ${{ github.workspace }}/reports
     - name: Test
       run: npm test
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_PROJECT_KEY: ctse
           
   SnykSecurityScan:
     needs: BuildandTest
