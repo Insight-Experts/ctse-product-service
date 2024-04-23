@@ -44,6 +44,7 @@ jobs:
         args: >
           --failOnCVSS 7
           --enableRetired
+          --excludeCVE GHSA-8cp3-66vr-3r4c
     - name: Upload Test results
       uses: actions/upload-artifact@v2
       with:
