@@ -38,7 +38,7 @@ jobs:
       id: Depcheck
       with:
         project: 'test'
-        path: '.' # Update this path if necessary
+        path: '.'
         format: 'HTML'
         out: 'reports'
         args: >
